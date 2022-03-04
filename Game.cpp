@@ -168,6 +168,12 @@ void Game::UpdateGame()
 		mBallVel.x < 0.0f)
 	{
 		mBallVel.x *= -1.0f;
+		points++;
+		if (points == 5) {
+			//muda velocidade da bolinha caso atinja 5 pontos
+			mBallVel.x = -400.0f;
+			mBallVel.y = 700.0f;
+		}
 	}
 
 	//Verifica se a bola saiu da tela (no lado esquerdo, onde é permitido)
