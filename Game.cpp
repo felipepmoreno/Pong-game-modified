@@ -167,12 +167,17 @@ void Game::UpdateGame()
 		// A bolinha está se movendo para a esquerda
 		mBallVel.x < 0.0f)
 	{
+		//verifica se a velocidade da bolinha é negativo ou positivo (esquerda/direita)
+		//se for negativo, subtrai para aumentar, caso o contrário, soma
+		if(mBallVel.x>0)
+			mBallVel.x = mBallVel.x + 25.0f;
+		else
+			mBallVel.x = mBallVel.x - 25.0f;
 		mBallVel.x *= -1.0f;
+		mBallVel.y = mBallVel.y + 25.0f;
 		points++;
 		if (points == 5) {
-			//muda velocidade da bolinha caso atinja 5 pontos
-			mBallVel.x = -400.0f;
-			mBallVel.y = 700.0f;
+			//adiciona uma bolinha a mais
 		}
 	}
 
