@@ -33,6 +33,7 @@ private:
 	void ProcessInput();
 	void UpdateGame();
 	void GenerateOutput();
+	void Reposiciona();
 
 	// Window created by SDL
 	SDL_Window* mWindow;

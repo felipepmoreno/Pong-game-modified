@@ -72,7 +72,7 @@ bool Game::Initialize()
 	mBallPos.x = 1024.0f / 2.0f;//posi��o da bola eixo x
 	mBallPos.y = 768.0f / 2.0f;//posi��o da bola eixo y
 
-	mBallVel.x = 200.0f;//velocidade de movimenta��o da bola no eixo x
+	mBallVel.x = -200.0f;//velocidade de movimenta��o da bola no eixo x
 	mBallVel.y = 500.0f;//velocidade de movimenta��o da bola no eixo y
 
 	return true;
@@ -212,15 +212,16 @@ void Game::UpdateGame()
 
 	else if (mBallPos.x <= 0.0f || mBallPos.x >= 1024)
 	{
-		mIsRunning = true;
+		Reposiciona();
+		//mIsRunning = false;
 	}
 
 	// NAO Atualize (negative) a velocidade da bola se ela colidir com a parede do lado direito
 	// 
-	else if (mBallPos.x >= (1024.0f - thickness) && mBallVel.x > 0.0f)
+	/*else if (mBallPos.x >= (1024.0f - thiRckness) && mBallVel.x > 0.0f)
 	{
 		mBallVel.x *= -1.0f;
-	}
+	}*/
 
 	// Atualize (negative) a posi��o da bola se ela colidir com a parede de cima
 	// 
@@ -237,6 +238,21 @@ void Game::UpdateGame()
 		mBallVel.y *= -1;
 	}
 
+}
+
+void Game::Reposiciona()
+{
+	mPaddle1Pos.x = 10.0f;//posi��o inicial da raquete eixo x
+	mPaddle1Pos.y = 768.0f / 2.0f;//posi��o inicial da raquee eixo y
+
+	mPaddle2Pos.x = 1000.0f;//posi��o inicial da raquete eixo x
+	mPaddle2Pos.y = 768.0f / 2.0f;//posi��o inicial da raquee eixo y
+
+	mBallPos.x = 1024.0f / 2.0f;//posi��o da bola eixo x
+	mBallPos.y = 768.0f / 2.0f;//posi��o da bola eixo y
+
+	mBallVel.x = -200.0f;//velocidade de movimenta��o da bola no eixo x
+	mBallVel.y = 500.0f;//velocidade de movimenta��o da bola no eixo y
 
 }
 
