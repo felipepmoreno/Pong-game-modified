@@ -8,6 +8,7 @@
 
 #pragma once
 #include "SDL/SDL.h"
+#include "Entities/Ball.cpp"
 
 // Vector2 struct just stores x/y coordinates
 // (for now)
@@ -55,9 +56,10 @@ private:
 	// Position of paddle 2
 	Vector2 mPaddle2Pos;
 	// Position of ball
-	Vector2 mBallPos;
+	Vector2 initialPos;
 	// Velocity of ball
-	Vector2 mBallVel;
+	Vector2 initialVel;
+    Ball balls[10];
 
 	// Player Scores
 	int p1Score = 0;

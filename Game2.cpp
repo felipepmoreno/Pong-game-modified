@@ -69,11 +69,15 @@ bool Game::Initialize()
 	mPaddle2Pos.x = 1000.0f;//posi��o inicial da raquete eixo x
 	mPaddle2Pos.y = 768.0f / 2.0f;//posi��o inicial da raquee eixo y
 
-	mBallPos.x = 1024.0f / 2.0f;//posi��o da bola eixo x
-	mBallPos.y = 768.0f / 2.0f;//posi��o da bola eixo y
+	initialPos.x = 1024.0f / 2.0f;//posi��o da bola eixo x
+	initialPos.y = 768.0f / 2.0f;//posi��o da bola eixo y
 
-	mBallVel.x = -200.0f;//velocidade de movimenta��o da bola no eixo x
-	mBallVel.y = 500.0f;//velocidade de movimenta��o da bola no eixo y
+	initialVel.x = -200.0f;//velocidade de movimenta��o da bola no eixo x
+	initialVel.y = 500.0f;//velocidade de movimenta��o da bola no eixo y
+
+    if (!balls[0].isInstanced()) {
+        balls[0].populate(inicialPos.x, initialPos.y, initialVel.x, initialVel.y);
+    }
 
 	return true;
 }
@@ -183,38 +187,11 @@ void Game::UpdateGame()
 		}
 	}
 
-	// atualiza a posi��o da bola com base na sua velocidade
-	mBallPos.x += mBallVel.x * deltaTime;
-	mBallPos.y += mBallVel.y * deltaTime;
-
-	// atualiza a posi��o da bola se ela colidiu com a raquete
-	float diff = mPaddle1Pos.y - mBallPos.y;
-	float diff2 = mPaddle2Pos.y - mBallPos.y;
-	//pegue o valor absoluto de diferen�a entre o eixo y da bolinha e da raquete
-	//isso � necess�rio para os casos em que no pr�ximo frame a bolinha ainda n�o esteja t�o distante da raquete
-	//verifica se a bola est� na area da raquete e na mesma posi��o no eixo x
-	diff = (diff > 0.0f) ? diff : -diff;
-	diff2 = (diff2 > 0.0f) ? diff2 : -diff2;
-	if (
-		// A diferen�a no eixo y y-difference is small enough
-		diff <= paddleH / 2.0f &&
-		// Estamos na posicao x correta
-		mBallPos.x <= 25.0f && mBallPos.x >= 20.0f &&
-		// A bolinha est� se movendo para a esquerda
-		mBallVel.x < 0.0f)
-	{
-		mBallVel.x *= -1.0f;
-	}
-
-	else if(
-		diff2 <= paddleH / 2.0f &&
-		// Estamos na posicao x correta
-		mBallPos.x <= 1000.0f && mBallPos.x >= 995.0f &&
-		// A bolinha est� se movendo para a esquerda
-		mBallVel.x > 0.0f)
-		{
-			mBallVel.x *= -1.0f;
-		}
+	if (balls[0].isInstanced()) {
+        if (balls[0].isOut()) {
+            
+        }
+    }
 
 	//Verifica se a bola saiu da tela (no lado esquerdo ou direito, onde � permitido)
 	//Se sim, encerra o jogo
@@ -222,31 +199,23 @@ void Game::UpdateGame()
 
 	else if (mBallPos.x <= 0.0f)
 	{
-		lado = 1;
+		lado = 0;
 		UpdatePoints(lado);
-		Reposition();
-		printf("Pontuacao player 1: %d\n", p1Score);
-		printf("Pontuacao player 2: %d\n\n", p2Score);
+		//mIsRunning = false;
 	}
 	else if(mBallPos.x >= 1024)
 	{
-		lado = 0;
+		lado = 1;
 		UpdatePoints(lado);
-		Reposition();
-		printf("Pontuacao player 1: %d\n", p1Score);
-		printf("Pontuacao player 2: %d\n\n", p2Score);
 	}
 
+	Reposition();
+	printf("Pontuacao player 1: %d\n", p1Score);
+	printf("Pontuacao player 2: %d\n\n\n", p2Score);
 
 	if (p1Score == 5)
 	{
-		printf("\n\n|||   Player 1 venceu!   |||");
-		mIsRunning = false;
-	}
-	else if (p2Score == 5)
-	{
-		printf("\n\n|||   Player 2 venceu!   |||");
-		mIsRunning = false;
+
 	}
 
 	// NAO Atualize (negative) a velocidade da bola se ela colidir com a parede do lado direito
@@ -258,7 +227,7 @@ void Game::UpdateGame()
 
 	// Atualize (negative) a posi��o da bola se ela colidir com a parede de cima
 	// 
-	if (mBallPos.y <= thickness && mBallVel.y < 0.0f)
+	if (mBallPos.y <= thickness && mBallVel.y < 0.0f) 
 	{
 		mBallVel.y *= -1;
 	}
