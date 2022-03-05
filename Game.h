@@ -42,15 +42,22 @@ private:
 	Uint32 mTicksCount;
 	// Game should continue to run
 	bool mIsRunning;
-	
+
 	// Pong specific
-	// Direction of paddle
-	int mPaddleDir;
-	// Position of paddle
-	Vector2 mPaddlePos;
+	// Direction of paddle 1
+	int mPaddle1Dir;
+	// Direction of paddle 2
+	int mPaddle2Dir;
+	// Position of paddle 1
+	Vector2 mPaddle1Pos;
+	// Position of paddle 2
+	Vector2 mPaddle2Pos;
 	// Position of ball
 	Vector2 mBallPos;
 	// Velocity of ball
 	Vector2 mBallVel;
-	int points = 0;
+
+	// Player Scores
+	int p1Score;
+	int p2Score;
 };
